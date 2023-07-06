@@ -22,11 +22,14 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type First<T extends any[]> = any
+type First<T extends any[]> = '0' extends keyof T ? T[0] : never
+
+// T가 비어있는지 확인해야 함
+type IsEmptyArray<T extends any[]> = T extends [] ? true : false
+type First3<T extends any[]> = IsEmptyArray<T> extends false ? T[0] : never
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
-
 type cases = [
   Expect<Equal<First<[3, 2, 1]>, 3>>,
   Expect<Equal<First<[() => 123, { a: string }]>, () => 123>>,
