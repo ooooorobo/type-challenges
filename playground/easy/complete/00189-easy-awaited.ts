@@ -22,7 +22,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type MyAwaited<T> = any
+type Thenable<T> = { then: (...args: any[]) => T }
+type MyAwaited<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U extends PromiseLike<any> ? MyAwaited<U> : U : never
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
