@@ -28,7 +28,11 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type MyOmit<T, K> = any
+// keyof T를 그냥 쓰는게 아니라 as로 리매핑을 해줘야 한다!!
+// 안그러면 삼항연산자 결과부분에서 쓸때 조건문에 있던거랑 매핑이 안돼서 이상하게 들어가는 듯?
+// In TypeScript 4.1 and onwards, you can re-map keys in mapped types with an as clause in a mapped type.
+// ref: https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#key-remapping-via-as
+type MyOmit<T, K extends keyof T> = { [key in keyof T as key extends K ? never : key]: T[key] }
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
